@@ -6,7 +6,7 @@ output: html_document
 Set the working directory.
 
 ```{r}
-setwd("C:\\Users\\proca\\OneDrive\\Desktop\\vignette_scrna")
+setwd("C:\\Users\\luca3\\Desktop\\progetti_pavesi\\progetto trascrittomica")
 ```
 
 #Introduction
