@@ -9,7 +9,7 @@ Set the working directory.
 setwd("C:\\Users\\proca\\OneDrive\\Desktop\\vignette_scrna")
 ```
 
-#Introduction
+# Introduction
 
 Attach the required libraries.
 
@@ -25,7 +25,7 @@ Load the data.
 data <- get(load('SRA667466_SRS3060008.sparse.RData'))
 ```
 
-#Pre-processing
+# Pre-processing
 
 Remove ENS part.
 
@@ -33,12 +33,21 @@ Remove ENS part.
 rownames(data) <- gsub("\\_ENS.*", "", rownames(data))
 head(rownames(data))
 ```
+```{r}
+## [1] "00R_AC107638.2" "0610009O20Rik"  "1110020A21Rik"  "1600014C23Rik" 
+## [5] "1700007L15Rik"  "1700015F17Rik"
+```
 
 Create the Seurat Object.
 
 ```{r}
 dorsal <- CreateSeuratObject(counts = data, project = "dorsal", min.cells = 3, min.features = 200)
 dorsal
+```
+```{r}
+## An object of class Seurat 
+## 23577 features across 7546 samples within 1 assay 
+## Active assay: RNA (23577 features, 0 variable features)
 ```
 
 Calculate mitochondrial QC metrics with the PercentageFeatureSet function, which calculates the percentage of counts originating from a set of genes. Data are from mouse, we identify the mitochondrial genes starting with "mt-".
@@ -52,7 +61,14 @@ Show QC metrics for the first 5 cells.
 ```{r}
 head(dorsal@meta.data, 5)
 ```
-
+```{r}
+##                 orig.ident nCount_RNA nFeature_RNA percent.mt
+## AAACATACACGCTA     dorsal       1228          855   1.384365
+## AAACATACGCGAAG     dorsal       7139         2545   1.470794
+## AAACATACTGAGAA     dorsal       1004          732   1.593625
+## AAACATACTGCTGA     dorsal        713          561   2.384292
+## AAACATTGCATACG     dorsal       1129          781   2.302923
+```
 Violin plot.
 
 ```{r}
@@ -80,7 +96,7 @@ plot2 <- FeatureScatter(dorsal, feature1 = "nCount_RNA", feature2 = "nFeature_RN
 plot1 + plot2
 ```
 
-##Normalization
+## Normalization
 
 Normalize the data. Seurat normalizes the gene counts in three steps. First divides gene counts by the total counts for each cell, then multiplies it by a scale factor (10,000 by default), and finally log-transforms the result.
 
@@ -111,7 +127,7 @@ plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
 plot1 + plot2
 ```
 
-##Gene scaling and PCA
+## Gene scaling and PCA
 
 Scale the data. We apply a recommended step by Seurat for 10X data. All log-normalized counts are transformed so that they have mean 0 and variance 1 across all cells, regardless of the count values (high or low).
 
@@ -171,7 +187,7 @@ Find the number of cells in each cluster.
 table(dorsal$RNA_snn_res.0.4)
 ```
 
-#Cell type markers
+# Cell type markers
 
 Find the marker genes.Now it’s the moment to find the genes that make us capable of assigning a cellular type to each cluster. In order to identify the specificity of a gene for a cell it is necessary to retrieve information in PanglaoDB or in scientific literature.
 
