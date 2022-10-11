@@ -62,7 +62,7 @@ Show QC metrics for the first 5 cells.
 head(dorsal@meta.data, 5)
 ```
 ```{r}
-##                 orig.ident nCount_RNA nFeature_RNA percent.mt
+##                orig.ident nCount_RNA nFeature_RNA percent.mt
 ## AAACATACACGCTA     dorsal       1228          855   1.384365
 ## AAACATACGCGAAG     dorsal       7139         2545   1.470794
 ## AAACATACTGAGAA     dorsal       1004          732   1.593625
@@ -86,6 +86,11 @@ Final data. Looking at the previous plot we decided to filter for nFeature_RNA >
 ```{r}
 dorsal <- subset(dorsal, subset = nFeature_RNA > 200 & nFeature_RNA < 4500 & percent.mt < 5)
 dorsal
+```
+```{r}
+## An object of class Seurat 
+## 23577 features across 7127 samples within 1 assay 
+## Active assay: RNA (23577 features, 0 variable features)
 ```
 
 Final violin plot. 
@@ -118,6 +123,10 @@ Identify the 10 most highly variable genes.
 top10 <- head(VariableFeatures(dorsal), 10)
 top10
 ```
+```{r}
+ ## [1] "Ptgds"  "Acta2"  "Lyz2"   "Pf4"    "Crip1"  "Gfap"   "Vtn"    "Sst"   
+ ## [9] "Dcn"    "Cd209f"
+ ```
 
 Plot variable features with and without the labels
 
@@ -168,6 +177,17 @@ The “optimal” number of clusters is computed automatically. After many attem
 dorsal <- FindNeighbors(dorsal, dims = 1:12)
 dorsal <- FindClusters(dorsal, resolution = 0.4)
 ```
+```{r}
+## Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck
+
+## Number of nodes: 7127
+## Number of edges: 231237
+
+## Running Louvain algorithm...
+## Maximum modularity in 10 random starts: 0.9506
+## Number of communities: 19
+## Elapsed time: 0 seconds
+```
 
 Run the UMAP.
 
@@ -185,6 +205,12 @@ Find the number of cells in each cluster.
 
 ```{r}
 table(dorsal$RNA_snn_res.0.4)
+```
+```{r}
+##    0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+## 1574  958  720  517  461  446  439  431  231  230  214  176  163  159  118  101 
+##   16   17   18 
+##   79   64   46 
 ```
 
 # Cell type markers
@@ -208,7 +234,23 @@ Find the top 5 markers for each cluster
 top5 <- markers_table %>% group_by(cluster) %>% top_n(n = 5, wt = avg_log2FC)
 top5
 ```
-
+```{r}
+## # A tibble: 95 x 7
+## # Groups:   cluster [19]
+##    p_val avg_log2FC pct.1 pct.2 p_val_adj cluster gene         
+##    <dbl>      <dbl> <dbl> <dbl>     <dbl>   <int> <chr>        
+##  1     0       3.87 0.923 0.147         0       0 Slc6a11      
+##  2     0       3.74 0.809 0.12          0       0 RP23-168E14.7
+##  3     0       3.64 0.752 0.091         0       0 Htra1        
+##  4     0       3.62 0.963 0.283         0       0 Aldoc        
+##  5     0       3.50 0.656 0.046         0       0 Cldn10       
+##  6     0       3.78 0.999 0.158         0       1 Mal          
+##  7     0       3.50 1     0.62          0       1 Plp1         
+##  8     0       3.35 0.987 0.134         0       1 Trf          
+##  9     0       3.12 1     0.154         0       1 Mog          
+## 10     0       3.05 1     0.948         0       1 Fth1         
+## # ... with 85 more rows
+```
 Use violin plots to show expression probability distributions across clusters.
 
 ```{r}
