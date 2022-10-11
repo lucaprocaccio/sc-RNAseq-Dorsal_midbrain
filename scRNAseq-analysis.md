@@ -81,6 +81,7 @@ plot1 <- FeatureScatter(dorsal, feature1 = "nCount_RNA", feature2 = "percent.mt"
 plot2 <- FeatureScatter(dorsal, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 plot1 + plot2
 ```
+![image_2](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_2.png)
 
 Final data. Looking at the previous plot we decided to filter for nFeature_RNA > 200 and nFeature_RNA < 4500 and percent.mt < 5
 
@@ -101,6 +102,7 @@ plot1 <- FeatureScatter(dorsal, feature1 = "nCount_RNA", feature2 = "percent.mt"
 plot2 <- FeatureScatter(dorsal, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")
 plot1 + plot2
 ```
+![image_3](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_3.png)
 
 ## Normalization
 
@@ -136,6 +138,7 @@ plot1 <- VariableFeaturePlot(dorsal)
 plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
 plot1 + plot2
 ```
+![image_4](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_4.png)
 
 ## Gene scaling and PCA
 
@@ -160,12 +163,14 @@ We use dimensionality reduction with PCA and plot the result. In our case it is 
 dorsal <- RunPCA(dorsal, features = VariableFeatures(object = dorsal))
 DimPlot(dorsal)
 ```
+![image_5](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_5.png)
 
 Now we want to decide how many principal components keep for the clustering. We use the elbow plot because of its intuitivness. It is a ranking of principal components based on the percentage of variance explained by each one. 
 
 ```{r}
 ElbowPlot(dorsal, ndims = 20)
 ```
+![image_6](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_6.png)
 
 We observe an elbow around 12. Although the plot stabilizes around 25, I decided to keep 12 as number of dimensions first because the clusterings with increased dimensions are similar to the one with 12 and then because KNN clustering is affected by "curse of dimensionality" so it was better keep a not much high number of dimensions.
 
@@ -201,6 +206,7 @@ Plot the UMAP.
 ```{r}
 DimPlot(dorsal, reduction = "umap")
 ```
+![image_7](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_7.png)
 
 Find the number of cells in each cluster.
 
@@ -257,40 +263,49 @@ Use violin plots to show expression probability distributions across clusters.
 ```{r}
 VlnPlot(dorsal, features = c("Slc6a11", "Mal","Meg3"))
 ```
+![image_8](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_8.png)
 
 ```{r}
 VlnPlot(dorsal, features = c("Cldn5", "Gad2","Mag"))
 ```
+![image_9](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_9.png)
 
 ```{r}
 VlnPlot(dorsal, features = c("Ctss", "Pdgfra","Enpp6"))
 ```
+![image_10](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_10.png)
 
 ```{r}
 VlnPlot(dorsal, features = c("Gfap", "Gad1","Rgs5"))
 ```
+![image_11](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_11.png)
 
 ```{r}
 VlnPlot(dorsal, features = c("Pcsk1n", "Acta2","Ptgds"))
 ```
+![image_12](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_12.png)
 
 ```{r}
 VlnPlot(dorsal, features = c("Mbp", "Syp"))
 ```
+![image_13](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_13.png)
 
 ```{r}
 VlnPlot(dorsal, features = c("Pf4","RP23-100C7.3"))
 ```
+![image_14](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_14.png)
 
 Use feature plots to show feature expression on the UMAP
 
 ```{r}
 FeaturePlot(dorsal, features = c("Slc6a11","Mal","Meg3","Cldn5","Gad2","Mag","Ctss", "Pdgfra","Enpp6"))
 ```
+![image_15](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_15.png)
 
 ```{r}
-FeaturePlot(dorsal, features = c("Gfap", "Gad1","Rgs5","Pcsk1n", "Acta2","Ptgds", "Mbp","Syp","Pf4"                                           ,"RP23-100C7.3"))
+FeaturePlot(dorsal, features = c("Gfap", "Gad1","Rgs5","Pcsk1n", "Acta2","Ptgds", "Mbp","Syp","Pf4","RP23-100C7.3"))
 ```
+![image_16](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_16.png)
 
 Assign a cell type to each cluster and plot the final UMAP
 
@@ -303,6 +318,7 @@ names(new.cluster.ids) <- levels(dorsal)
 dorsal <- RenameIdents(dorsal, new.cluster.ids)
 DimPlot(dorsal, reduction = "umap", label = TRUE, pt.size = 0.5) + NoLegend()
 ```
+![image_17](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_17.png)
 
 
 
