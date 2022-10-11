@@ -74,6 +74,7 @@ Violin plot.
 ```{r}
 VlnPlot(dorsal, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3, pt.size=0)
 ```
+![image_1](https://github.com/lucaprocaccio/sc-RNAseq-Dorsal_midbrain/blob/main/figure-html/image_1.png)
 
 ```{r}
 plot1 <- FeatureScatter(dorsal, feature1 = "nCount_RNA", feature2 = "percent.mt")
