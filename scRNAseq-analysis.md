@@ -3,12 +3,6 @@ title: "single_cell"
 output: html_document
 ---
 
-Set the working directory.
-
-```{r}
-setwd("C:\\Users\\proca\\OneDrive\\Desktop\\vignette_scrna")
-```
-
 # Introduction
 
 Attach the required libraries.
